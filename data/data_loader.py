@@ -231,7 +231,7 @@ class Dataset_Custom(Dataset):
         df_raw = df_raw[['date']+cols+[self.target]]
 
         num_train = int(len(df_raw)*0.7)
-        num_test = int(len(df_raw)*0.2)
+        num_test = int(len(df_raw)*0.145)
         num_vali = len(df_raw) - num_train - num_test
         border1s = [0, num_train-self.seq_len, len(df_raw)-num_test-self.seq_len]
         border2s = [num_train, num_train+num_vali, len(df_raw)]
@@ -265,8 +265,8 @@ class Dataset_Custom(Dataset):
     def __getitem__(self, index):
         s_begin = index
         s_end = s_begin + self.seq_len
-        r_begin = s_end - self.label_len 
-        r_end = r_begin + self.label_len + self.pred_len
+        r_begin = s_end 
+        r_end = r_begin + self.pred_len
 
         seq_x = self.data_x[s_begin:s_end]
         if self.inverse:
@@ -359,8 +359,8 @@ class Dataset_Pred(Dataset):
     def __getitem__(self, index):
         s_begin = index
         s_end = s_begin + self.seq_len
-        r_begin = s_end - self.label_len
-        r_end = r_begin + self.label_len + self.pred_len
+        r_begin = s_end 
+        r_end = r_begin + self.pred_len
 
         seq_x = self.data_x[s_begin:s_end]
         if self.inverse:
